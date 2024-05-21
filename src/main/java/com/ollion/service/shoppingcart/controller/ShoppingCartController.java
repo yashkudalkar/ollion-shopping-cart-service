@@ -5,7 +5,9 @@ import com.ollion.service.shoppingcart.domain.Item;
 import com.ollion.service.shoppingcart.exception.CartNotFoundException;
 import com.ollion.service.shoppingcart.exception.ItemNotFoundException;
 import com.ollion.service.shoppingcart.service.CartService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,6 +16,7 @@ import static com.ollion.service.shoppingcart.common.ShoppingCartConstants.CHECK
 
 @RestController()
 @RequestMapping("/cart")
+@Validated
 public class ShoppingCartController {
 
     private final CartService cartService;
@@ -29,7 +32,7 @@ public class ShoppingCartController {
 
     @PostMapping("/items")
     public Cart addItemsToCart(@RequestHeader(value = "x-user-id") Integer userId,
-                               @RequestBody List<Item> items) throws CartNotFoundException {
+                               @Valid @RequestBody List<Item> items) throws CartNotFoundException {
         return this.cartService.addItemsToCart(userId, items);
     }
 
